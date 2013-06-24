@@ -1,0 +1,63 @@
+<form id="myForm" action="" class="form-horizontal" method="post">
+    <fieldset>
+        <legend>参数设置</legend>
+        <div class="row">
+            <div class="span12">
+                <div class="control-group">
+                    <label class="control-label" for="input09">SMTP 服务器</label>
+
+                    <div class="controls">
+                        <input type="text" name="MAIL_SMTP" value="#{getAttr('MAIL_SMTP')}" class="input-xlarge required"
+                               id="input09" required tabindex="1"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input10">SMTP 端口</label>
+                    <div class="controls">
+                        <input type="number" name="MAIL_PORT" value="#{getAttr('MAIL_PORT')}" class="input-xlarge required"
+                               id="input10" required tabindex="2"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input11">发信邮箱</label>
+                    <div class="controls">
+                        <input type="text" name="MAIL_FROM" value="#{getAttr('MAIL_FROM')}" class="input-xlarge required"
+                               id="input11" required tabindex="3"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input12">邮箱密码</label>
+                    <div class="controls">
+                        <input type="password" name="MAIL_KEY" value="#{getAttr('MAIL_KEY')}" class="input-xlarge"
+                               id="input12" required tabindex="4"/>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保 存</button>
+                    <button type="reset" class="btn">重 置</button>
+                </div>
+             </div>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#sys_page").addClass("active");
+        $("input,select,textarea").not("[type=submit]").not("[type=reset]").jqBootstrapValidation();
+        $('#myForm').submit(function () {
+            $.ajax({
+                type: 'POST',
+                url: "",
+                dataType: "json",
+                data: $("#myForm").serialize(),
+                success: function () {
+                    SiQiTip.show("success", "保存成功！");
+                },
+                error: function() {
+                    SiQiTip.show("error", "保存失败！");
+                }
+            });
+            return false;
+        });
+    });
+</script>

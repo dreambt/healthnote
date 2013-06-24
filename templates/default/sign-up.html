@@ -1,0 +1,66 @@
+<div id="sign_up1">
+    <div class="container">
+        <div class="row">
+            <div class="span12 header">
+                <h4>创建新用户</h4>
+
+                <p>欢迎登录并使用云打印服务.</p>
+
+                <div class="span4 social">
+                    <a href="#" class="circle facebook">
+                        <img src="#{{ STATIC_URL }}/static/images/social/face.png" alt="">
+                    </a>
+                    <a href="#" class="circle twitter">
+                        <img src="#{{ STATIC_URL }}/static/images/social/twt.png" alt="">
+                    </a>
+                    <a href="#" class="circle gplus">
+                        <img src="#{{ STATIC_URL }}/static/images/social/gplus.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="span3 division">
+                <div class="line l"></div>
+                <span>or</span>
+
+                <div class="line r"></div>
+            </div>
+
+            <div class="span12 footer">
+                <form id="myForm" action="" method="post">
+                    <input type="email" name="email" size="25" required placeholder="Email">
+                    <input type="password" name="password" size="25" required placeholder="Password">
+                    <input type="password" name="password2" size="25" required placeholder="Confirm Password">
+                    <input type="submit" value="注 册">
+                </form>
+            </div>
+
+            <div class="span12 dosnt">
+                <span>已经拥有帐号?</span>
+                <a href="sign-in.html">登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#sign-up").addClass("active");
+        $('#myForm').submit(function () {
+            $('#submit').attr('disabled', 'disabled');
+            $.ajax({
+                type: 'POST',
+                data: $('#myForm').serialize(),
+                success: function (data) {
+                    if(data == "OK") {
+                        window.location.href = "/";
+                    }
+                    else {
+                        SiQiTip.show("error", data);
+                    }
+                    $('#submit').removeAttr('disabled');
+                }
+            });
+            return false;
+        });
+    });
+</script>

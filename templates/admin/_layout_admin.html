@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>#{title} - #{{ getAttr('SITE_TITLE') }}</title>
+    <link rel="shortcut icon" href="#{{ STATIC_URL }}/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap-responsive.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap-switch.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/chosen.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/admin.min.css" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jquery-1.10.1.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jquery-2.0.2.min.js"></script>
+    <!--<![endif]-->
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/">#{{ getAttr('SITE_TITLE') }}</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li id="admin_page"><a href="/admin/">后台首页</a></li>
+                    <li id="daily_page"><a href="/admin/daily">数据录入</a></li>
+                    <li id="report_page"><a href="/admin/report">数据报表</a></li>
+                    <li class="divider-vertical"></li>
+                    <li id="type_page"><a href="/admin/type_list">数据类型</a></li>
+                    <li id="user_page"><a href="/admin/list_user">用户管理</a></li>
+                    <li id="link_page"><a href="/admin/links">友情链接</a></li>
+                    <li class="divider-vertical"></li>
+                    <li id="sys_page" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">系统设置
+                        <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">基本设置</li>
+                            <li><a href="/admin/setting">站点信息</a></li>
+                            <li><a href="/admin/setting2">邮箱配置</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">高危操作</li>
+                            <li><a id="flushcache">清空缓存</a></li>
+                            <!--<li><a href="/admin/kvdb">KVDB管理</a></li>-->
+                            <li><a id="flush">初始化数据</a></li>
+                        </ul>
+                    </li>
+                    <li class="divider-vertical"></li>
+                    <li id="profile_page"><a href="/admin/profile">修改密码</a></li>
+                    <li><a href="/admin/logout">安全退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h1>#{title}</h1>
+        <div id="carbonads-container">
+            <div class="carbonad"><a href="#helper">帮助信息</a></div>
+        </div>
+    </div>
+</header>
+<div class="bb-alert alert" style="display:none;">
+    <span>默认提示信息</span>
+</div>
+<div class="container">
+    #{_content}
+</div>
+<footer id="footer">
+    <div class="container">
+        <p>&copy; #{{ COPY_YEAR }} Copyright <a href="http://www.im47.cn/">思奇博客</a></p>
+        <p>Powered by <a href="https://github.com/dreambt/cms4p" target="_blank">cms4p</a> - Time: <span
+                id="requesttime">#{ int(request.request_time()*1000) }</span> ms - <a class="fr" target="_blank" href="http://sae.sina.com.cn"><img
+                title="Powered by Sina App Engine" src="#{{ STATIC_URL }}/static/images/sae.gif"></a></p>
+    </div>
+</footer>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootstrap.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootstrap-ajax.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jqBootstrapValidation-1.3.7.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootbox.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/custom.js"></script>
+</body>
+</html>

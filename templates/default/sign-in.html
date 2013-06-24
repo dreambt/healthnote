@@ -1,0 +1,74 @@
+<div id="sign_in1">
+    <div class="container">
+        <div class="row">
+            <div class="span12 header">
+                <h4>用户登录</h4>
+
+                <p>欢迎登录并使用云打印服务.</p>
+
+                <div class="span4 social">
+                    <a href="#" class="circle facebook">
+                        <img src="#{{ STATIC_URL }}/static/images/social/face.png" alt="">
+                    </a>
+                    <a href="#" class="circle twitter">
+                        <img src="#{{ STATIC_URL }}/static/images/social/twt.png" alt="">
+                    </a>
+                    <a href="#" class="circle gplus">
+                        <img src="#{{ STATIC_URL }}/static/images/social/gplus.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="span3 division">
+                <div class="line l"></div>
+                <span>or</span>
+
+                <div class="line r"></div>
+            </div>
+
+            <div class="span12 footer">
+                <form id="myForm" action="" method="post">
+                    <input type="email" name="email" size="25" required placeholder="Email">
+                    <input type="password" name="password" size="25" required placeholder="Password">
+                    <input type="submit" value="登 录">
+                </form>
+            </div>
+
+            <div class="span12 proof">
+                <div class="span5 remember">
+                    <label class="checkbox">
+                        <input type="checkbox" value="remember-me"> 记住我
+                    </label>
+                    <a href="reset.html">忘记密码?</a>
+                </div>
+
+                <div class="span3 dosnt">
+                    <span>还没有注册帐号?</span>
+                    <a href="sign-up.html">注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#sign-in").addClass("active");
+        $('#myForm').submit(function () {
+            $('#submit').attr('disabled', 'disabled');
+            $.ajax({
+                type: 'POST',
+                data: $('#myForm').serialize(),
+                success: function (data) {
+                    if(data == "OK") {
+                        window.location.href = "/admin/";
+                    }
+                    else {
+                        SiQiTip.show("error", data);
+                    }
+                    $('#submit').removeAttr('disabled');
+                }
+            });
+            return false;
+        });
+    });
+</script>

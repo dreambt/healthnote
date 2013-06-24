@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#{title}</title>
+    <meta name="keywords" content="#{{ getAttr('KEYWORDS') }}"/>
+    <meta name="description" content="#{{ getAttr('SITE_DECR') }}"/>
+    <link rel="shortcut icon" href="#{{ STATIC_URL }}/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap-responsive.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap-overrides.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/bootstrap-switch.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/chosen.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/sign-up.min.css" type="text/css"/>
+    <link rel="stylesheet" href="#{{ STATIC_URL }}/static/style/sign-in.min.css" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jquery-1.10.1.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jquery-2.0.2.min.js"></script>
+    <!--<![endif]-->
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">
+                <strong>#{{ getAttr('SITE_TITLE') }}</strong>
+            </a>
+
+            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                    <li><a id="index" href="/">首页</a></li>
+                    <li><a id="sign-up" class="btn-header" href="sign-up.html">注册</a></li>
+                    <li><a id="sign-in" class="btn-header" href="sign-in.html">登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bb-alert alert" style="display:none;">
+    <span>默认提示信息</span>
+</div>
+#{_content}
+<footer id="footer">
+    <div class="container">
+        <div class="row info">
+            <div class="span6 residence">
+                <ul>
+                    <li>中国, 山东省, 济南市, 市中区, 舜耕路40号.</li>
+                </ul>
+            </div>
+            <div class="span6 touch">
+                <ul>
+                    <li><strong>P.</strong> 186 6818 6108</li>
+                    <li><strong>E.</strong><a href="mailto:help@cms4p.sendcloud.org">help@cms4p.sendcloud.org</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row credits">
+            <div class="span12">
+                <div class="row social">
+                    <div class="span12">
+                        <a href="#" class="facebook">
+                            <span class="socialicons ico1"></span>
+                            <span class="socialicons_h ico1h"></span>
+                        </a>
+                        <a href="#" class="twitter">
+                            <span class="socialicons ico2"></span>
+                            <span class="socialicons_h ico2h"></span>
+                        </a>
+                        <a href="#" class="gplus">
+                            <span class="socialicons ico3"></span>
+                            <span class="socialicons_h ico3h"></span>
+                        </a>
+                        <a href="#" class="flickr">
+                            <span class="socialicons ico4"></span>
+                            <span class="socialicons_h ico4h"></span>
+                        </a>
+                        <a href="#" class="pinterest">
+                            <span class="socialicons ico5"></span>
+                            <span class="socialicons_h ico5h"></span>
+                        </a>
+                        <a href="#" class="dribble">
+                            <span class="socialicons ico6"></span>
+                            <span class="socialicons_h ico6h"></span>
+                        </a>
+                        <a href="#" class="behance">
+                            <span class="socialicons ico7"></span>
+                            <span class="socialicons_h ico7h"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row copyright">
+                    <p>&copy; 2013 CloudPrint.Me. All rights reserved. Time: <span id="requesttime">#{ int(request.request_time()*1000) }</span> ms - <a class="fr" target="_blank" href="http://sae.sina.com.cn"><img title="Powered by Sina App Engine" src="#{{ STATIC_URL }}/static/images/sae.gif"></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootstrap.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootstrap-ajax.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/jqBootstrapValidation-1.3.7.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootbox.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="#{{ STATIC_URL }}/static/js/custom.js"></script>
+</body>
+</html>
