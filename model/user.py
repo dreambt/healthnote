@@ -59,9 +59,9 @@ class User():
         mdb._ensure_connected()
         return mdb.execute(sql, status, user_id)
 
-    def get_user(self, id):
+    def get_user(self, user_id):
         sdb._ensure_connected()
-        return sdb.get('SELECT * FROM `mh_user` WHERE `user_id` = %s LIMIT 1' % id)
+        return sdb.get('SELECT * FROM `mh_user` WHERE `user_id` = %s LIMIT 1' % user_id)
 
     def get_all(self):
         sdb._ensure_connected()
@@ -73,7 +73,7 @@ class User():
             limit = getAttr('ADMIN_USER_NUM')
         limit = int(limit)
         sdb._ensure_connected()
-        sql = "SELECT * FROM `mh_user` ORDER BY `user_id` DESC LIMIT %s,%s" % ((int(page) - 1) * limit, limit)
+        sql = "SELECT * FROM `mh_user` ORDER BY `edit_time` DESC LIMIT %s,%s" % ((int(page) - 1) * limit, limit)
         return user_format(sdb.query(sql))
 
     def check_has_user(self):

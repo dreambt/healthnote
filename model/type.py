@@ -39,7 +39,7 @@ class Type():
 
     def get_all(self):
         sdb._ensure_connected()
-        return sdb.query('SELECT * FROM `mh_type`')
+        return sdb.query('SELECT *,\'\' as value FROM `mh_type` ORDER BY `type_order` DESC')
 
     # 分页
     def get_paged(self, page=1, limit=None):
@@ -47,7 +47,7 @@ class Type():
             limit = getAttr('ADMIN_TYPE_NUM')
         limit = int(limit)
         sdb._ensure_connected()
-        sql = "SELECT * FROM `mh_type` ORDER BY `type_id` DESC LIMIT %s,%s" % ((int(page) - 1) * limit, limit)
+        sql = "SELECT * FROM `mh_type` ORDER BY `type_order` DESC LIMIT %s,%s" % ((int(page) - 1) * limit, limit)
         return sdb.query(sql)
 
 

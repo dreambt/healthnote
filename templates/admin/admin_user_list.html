@@ -21,34 +21,22 @@
         <?py import time ?>
         <?py for i in objs: ?>
         <tr>
-            <td>#{i.id}</td>
+            <td>#{i.user_id}</td>
             <td><img alt='' src='#{i.gravatar}?s=48&d=monsterid' height='48' width='48'/></td>
-            <td><a href="/t/#{i.id}" title="Link to #{i.name}" target="_blank">#{i.name}</a><br /><a href="mailto:#{i.email}" title="Mail to #{i.email}" target="_blank">(#{i.email})</a></td>
+            <td><a href="/t/#{i.user_id}" title="Link to #{i.user_name}" target="_blank">#{i.user_name}</a><br /><a href="mailto:#{i.email}" title="Mail to #{i.email}" target="_blank">(#{i.email})</a></td>
             <td>0</td>
             <td>
             <?py    if i.status == 1: ?><span class="label label-success">启用</span>
             <?py    else: ?><span class="label">禁用</span>
             <?py    #endif ?></td>
-            <td><a href="/admin/repass_user?name=#{i.name}&email=#{i.email}" class="ajax" data-method="post" data-reset="1">找回密码</a></td>
-            <td><a href="/admin/edit_user/#{i.id}">编辑</a> <a href="/admin/del_user/#{i.id}" class="ajax" data-remove-closest="tr">删除</a></td>
+            <td><a href="/admin/repass_user?name=#{i.user_name}&email=#{i.email}" class="ajax" data-method="post" data-reset="1">找回密码</a></td>
+            <td><a href="/admin/edit_user/#{i.user_id}">编辑</a> <a href="/admin/del_user/#{i.user_id}" class="ajax" data-remove-closest="tr">删除</a></td>
         </tr>
         <?py #endfor ?>
         </tbody>
     </table>
     <div id="page-selection"></div>
     </div>
-</div>
-<hr id="helper"/>
-<div class="well">
-  <a class="pull-right" href="#">
-    <img class="media-object" src="#{{ STATIC_URL }}/static/images/helper-girl.jpg">
-  </a>
-  <h4>用户列表</h4>
-  <p>1.点击 <strong>用户名</strong> 可以查看用户详细资料</p>
-  <p>2.点击 <strong>编辑</strong> 可以修改用户资料</p>
-  <p>3.点击右侧绿色的 <strong>新建</strong> 按钮可以新建用户</p>
-  <p>4.本页最多显示 #{ADMIN_USER_NUM} 篇用户, 你可以在 <a href="/admin/setting5">后台参数</a> 里面修改</p>
-  <p><a href="#top" class="btn btn-primary">我明白了</a></p>
 </div>
 <script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/template.min.js"></script>
 <script type="text/javascript">
@@ -81,15 +69,15 @@
 <script id="articleTemplate" type="text/html">
 <%for(i = 0; i < list.length; i ++) {%>
 <tr>
-    <td><%=list[i].id%></td>
+    <td><%=list[i].user_id%></td>
     <td><img alt='' src='http://www.gravatar.com/avatar/<%=$md5(list[i].name)%>?s=48&d=monsterid' height='48' width='48'/></td>
-    <td><a href="/t/<%=list[i].id%>" title="Link to <%=list[i].name%>" target="_blank"><%=list[i].name%></a><br /><a href="mailto:<%=list[i].email%>" title="Mail to <%=list[i].email%>" target="_blank">(<%=list[i].email%>)</a></td>
+    <td><a href="/t/<%=list[i].user_id%>" title="Link to <%=list[i].user_name%>" target="_blank"><%=list[i].name%></a><br /><a href="mailto:<%=list[i].email%>" title="Mail to <%=list[i].email%>" target="_blank">(<%=list[i].email%>)</a></td>
     <td>0</td>
     <%if(list[i].status == 1){%><span class="label label-success">启用</span>
     <%}else{%><span class="label">禁用</span>
     <%}%></td>
-    <td><a href="/admin/repass_user?name=<%=list[i].name%>&email=<%=list[i].email%>" class="ajax" data-method="post" data-reset="1">找回密码</a></td>
-    <td><a href="/admin/edit_user/<%=list[i].id%>">编辑</a> <a href="/admin/del_user/<%=list[i].id%>" class="ajax" data-remove-closest="tr">删除</a></td>
+    <td><a href="/admin/repass_user?name=<%=list[i].user_name%>&email=<%=list[i].email%>" class="ajax" data-method="post" data-reset="1">找回密码</a></td>
+    <td><a href="/admin/edit_user/<%=list[i].user_id%>">编辑</a> <a href="/admin/del_user/<%=list[i].user_id%>" class="ajax" data-remove-closest="tr">删除</a></td>
 </tr>
 <%}%>
 </script>

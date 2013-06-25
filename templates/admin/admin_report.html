@@ -59,8 +59,8 @@
 <script type="text/javascript" src="#{{ STATIC_URL }}/static/js/vender/template.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        $("#type_page").addClass("active");
-        $("input,select,textarea").jqBootstrapValidation();
+        $("#type_report").addClass("active");
+        $("input,select,textarea").not("[type=submit]").not("[type=reset]").jqBootstrapValidation();
         $('#myForm').submit(function () {
             var type_name = $("input[name='type_name']").val();
             var type_type = $("input[name='type_type']").val();

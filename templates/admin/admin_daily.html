@@ -1,0 +1,51 @@
+<form id="myForm" action="#" class="form-horizontal" method="POST">
+    <fieldset>
+        <legend>#{folk.folk_name}</legend>
+        <div class="row">
+            <div class="span12">
+                <input type='hidden' value='#{folk.folk_id}' name='folk_id'/>
+                <?py for i in objs: ?>
+                <div class="control-group">
+                    <label class="control-label" for="field#{i.type_id}">#{i.type_name}</label>
+                    <div class="controls">
+                        <?py if i.type_type == 'number': ?>
+                        <input type="number" name="#{i.type_id}" class="input-xlarge" id="field#{i.type_id}" value="#{i.value}"/>
+                        <?py elif i.type_type == 'boolean': ?>
+                        <?py ck = ['checked',''] ?>
+                        <?py i.value = 0 < i.value ?>
+                        <div class="switch switch-small"><input type="checkbox" name="#{i.type_id}" class="input-xlarge" id="field#{i.type_id}" value="1" #{ck[i.value]}/></div>
+                        <?py #endif ?>
+                    </div>
+                </div>
+                <?py #endfor ?>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保 存</button>
+                    <button type="button" class="btn">重 置</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#daily_page").addClass("active");
+        $("input,select,textarea").jqBootstrapValidation();
+        $('#myForm').submit(function () {
+            $.ajax({
+                type: 'POST',
+                url: "",
+                dataType: "json",
+                data: $('#myForm').serialize(),
+                success: function (data) {
+                    if(data=="OK"){
+                        SiQiTip.show("success", "数据保存成功！");
+                    }
+                    else{
+                        SiQiTip.show("error", "数据保存失败！");
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>

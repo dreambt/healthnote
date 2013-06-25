@@ -3,18 +3,18 @@
         <label class="control-label">用户名</label>
         <div class="controls">
             <input type="hidden" name="method" value="#{method}"/>
-            <?py if obj and obj.id: ?>
-            <input type="hidden" name="userid" value="#{obj.id}"/>
-            <input type="text" class="span7" value="${obj.name}" tabindex="1" disabled="disabled"/>
+            <?py if obj and obj.user_id: ?>
+            <input type="hidden" name="userid" value="#{obj.user_id}"/>
+            <input type="text" class="span7" value="${obj.user_name}" tabindex="1" disabled="disabled"/>
             <?py else: ?>
-            <input type="text" name="username" class="span7" required maxlength="20" value="${obj.name}" tabindex="1" placeholder="用户名"/>
+            <input type="text" name="username" class="span7" required maxlength="20" value="${obj.user_name}" tabindex="1" placeholder="用户名"/>
             <?py #endif ?>
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">邮箱</label>
         <div class="controls">
-            <?py if obj and obj.id: ?>
+            <?py if obj and obj.user_id: ?>
             <input type="email" class="span7" value="${obj.email}" tabindex="2" disabled="disabled"/>
             <?py else: ?>
             <input type="email" name="email" class="span7" required maxlength="40" value="${obj.email}" tabindex="2" placeholder="邮箱地址"/>

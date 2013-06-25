@@ -89,12 +89,31 @@ CREATE TABLE IF NOT EXISTS `mh_type` (
 DROP TABLE IF EXISTS `mh_data`;
 CREATE TABLE IF NOT EXISTS `mh_data` (
   `data_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(20) NOT NULL DEFAULT '',
+  `folk_id` varchar(20) NOT NULL DEFAULT '',
   `key` varchar(40) NOT NULL DEFAULT '',
   `value` varchar(32) NOT NULL DEFAULT '',
+  `add_date` varchar(20) NOT NULL DEFAULT '',
+  `edit_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`data_id`),
+  UNIQUE (`folk_id`, `key`, `add_date`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `mh_folk`;
+CREATE TABLE IF NOT EXISTS `mh_folk` (
+  `folk_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `folk_name` varchar(20) NOT NULL DEFAULT '',
+  `birthday` varchar(20) unsigned NOT NULL DEFAULT '',
   `add_time` int(10) unsigned NOT NULL DEFAULT '0',
   `edit_time` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`data_id`)
+  PRIMARY KEY (`folk_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `mh_user_folk`;
+CREATE TABLE IF NOT EXISTS `mh_user_folk` (
+  `user_id` int unsigned NOT NULL,
+  `folk_id` int unsigned NOT NULL,
+  `relation` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`user_id`, `folk_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 """

@@ -81,9 +81,9 @@ class SignIn(BaseHandler):
             password += has_user.salt
             password = md5(password.encode('utf-8')).hexdigest()
             if password == has_user.password:
+                self.set_secure_cookie('user_id', str(has_user.user_id), expires_days=365)
                 self.set_secure_cookie('email', email, expires_days=365)
                 self.set_secure_cookie('password', password, expires_days=365)
-                role = User
                 self.write(json.dumps("OK"))
                 return
             else:
@@ -136,6 +136,7 @@ def Init():
 
     setAttr('ADMIN_USER_NUM', ADMIN_USER_NUM)
     setAttr('ADMIN_TYPE_NUM', ADMIN_TYPE_NUM)
+    setAttr('ADMIN_FOLK_NUM', ADMIN_FOLK_NUM)
 
     setAttr('ANALYTICS_CODE', ANALYTICS_CODE)
     setAttr('ADSENSE_CODE1', ADSENSE_CODE1)

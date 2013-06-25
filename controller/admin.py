@@ -12,6 +12,8 @@ from tornado.database import OperationalError
 from core.common import BaseHandler, authorized, clear_cache_by_pathlist, clear_all_cache, clearAllKVDB, getAttr, sendEmail
 from core.storage import put_storage, get_storage_list
 from core.utils.random_utils import random_string, random_int
+from model.data import Data
+from model.folk import Folk
 from model.type import Type
 from setting import *
 from extensions.imagelib import Thumbnail, Recaptcha
@@ -41,32 +43,167 @@ class HomePage(BaseHandler):
         return output
 
 
-class Daily(BaseHandler):
+class DailyController(BaseHandler):
     @authorized()
     def get(self):
-        type_list = Type.get_all()
-        output = self.render('admin_daily.html', {
-            'title': "数据录入",
-            'keywords': getAttr('KEYWORDS'),
-            'description': getAttr('SITE_DECR'),
-            'type_list': type_list,
+        folk_id = self.get_argument("id", '')
+        today = time.strftime("%Y-%m-%d", time.localtime())
+
+        # 类型列表
+        type_list = Data.get_all_data(folk_id, today)
+        if not type_list:
+            type_list = Type.get_all()
+        folk = Folk.get_folk(0, folk_id)
+        self.echo('admin_daily.html', {
+                'title': "数据录入",
+                'objs': type_list,
+                'folk': folk,
         }, layout='_layout_admin.html')
-        self.write(output)
-        return output
+
+    @authorized()
+    def post(self):
+        self.set_header("Content-Type", "application/json")
+        folk_id = self.get_argument("folk_id", '')
+
+        type_list = Type.get_all()
+        for i in type_list:
+            key = str(i.type_id)
+            value = self.get_argument(key, '')
+            if value:
+                try:
+                    Data.create_data(folk_id, key, value)
+                except:
+                    Data.update_data_by_folk_key(folk_id, key, value)
+
+        self.write(json.dumps("OK"))
 
 
-class Report(BaseHandler):
+class ReportController(BaseHandler):
     @authorized()
     def get(self):
+        act = self.get_argument("act", '')
+        id = self.get_argument("id", '')
+
+        obj = None
+        if act == 'del':
+            if id:
+                Type.delete_type(id)
+                clear_cache_by_pathlist(['/'])
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps("OK"))
+            return
+        elif act == 'edit':
+            if id:
+                obj = Type.get_type(id)
+                clear_cache_by_pathlist(['/'])
+
+        # 类型列表
         type_list = Type.get_all()
-        output = self.render('admin_report.html', {
-            'title': "数据录入",
-            'keywords': getAttr('KEYWORDS'),
-            'description': getAttr('SITE_DECR'),
-            'type_list': type_list,
+        total = math.ceil(Type.count_all() / float(getAttr('ADMIN_TYPE_NUM')))
+        self.echo('admin_report.html', {
+                'title': "数据报表",
+                'objs': type_list,
+                'obj': obj,
+                'total': total,
         }, layout='_layout_admin.html')
-        self.write(output)
-        return output
+
+    @authorized()
+    def post(self):
+        act = self.get_argument("act", '')
+        id = self.get_argument("id", '')
+
+        type_name = self.get_argument("type_name", '')
+        type_type = self.get_argument("type_type", '')
+        type_order = self.get_argument("type_order", 0)
+
+        if id or type_name or type_type or type_order:
+            if act == 'add':
+                Type.create_type(type_name, type_type, type_order)
+
+            if act == 'edit':
+                params = {'type_id': id, 'type_name': type_name, 'type_type': type_type, 'type_order': type_order}
+                Type.update_type(params)
+
+            if act == 'del':
+                Type.delete_type(id)
+
+            clear_cache_by_pathlist(['/'])
+
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps("OK"))
+        else:
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps("参数异常"))
+
+
+class FolkController(BaseHandler):
+    @authorized()
+    def get(self):
+        act = self.get_argument("act", '')
+        folk_id = self.get_argument("id", '')
+        user_id = self.get_secure_cookie("user_id")
+
+        obj = None
+        if act == 'del':
+            if folk_id:
+                Folk.delete_folk(user_id, folk_id)
+                clear_cache_by_pathlist(['/'])
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps("OK"))
+            return
+        elif act == 'edit':
+            if folk_id:
+                obj = Folk.get_folk(user_id, folk_id)
+                clear_cache_by_pathlist(['/'])
+
+        # 亲人列表
+        page = self.get_argument("page", 1)
+        objs = Folk.get_paged(user_id, page, getAttr('ADMIN_FOLK_NUM'))
+        total = math.ceil(Folk.count_all(user_id) / float(getAttr('ADMIN_FOLK_NUM')))
+        if page == 1:
+            self.echo('admin_folk_list.html', {
+                'title': "亲人管理",
+                'objs': objs,
+                'obj': obj,
+                'total': total,
+            }, layout='_layout_admin.html')
+        else:
+            result = {
+                'list': objs,
+                'total': total,
+            }
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps(result))
+            return
+
+    @authorized()
+    def post(self):
+        act = self.get_argument("act", '')
+        folk_id = self.get_argument("id", '')
+
+        folk_name = self.get_argument("folk_name", '')
+        relation = self.get_argument("relation", '')
+        birthday = self.get_argument("birthday", 0)
+
+        if folk_id or folk_name or relation or birthday:
+            user_id = self.get_secure_cookie("user_id")
+            if act == 'add':
+                Folk.create_folk(user_id, folk_name, relation, birthday)
+
+            if act == 'edit':
+                params = {'user_id': user_id, 'folk_id': folk_id, 'folk_name': folk_name, 'relation': relation, 'birthday': birthday}
+                Folk.update_folk(params)
+
+            if act == 'del':
+                Folk.delete_folk(user_id, folk_id)
+
+            clear_cache_by_pathlist(['/'])
+
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps("OK"))
+        else:
+            self.set_header("Content-Type", "application/json")
+            self.write(json.dumps("参数异常"))
 
 
 class TypeController(BaseHandler):
@@ -94,7 +231,7 @@ class TypeController(BaseHandler):
         total = math.ceil(Type.count_all() / float(getAttr('ADMIN_TYPE_NUM')))
         if page == 1:
             self.echo('admin_type_list.html', {
-                'title': "分类列表",
+                'title': "数据类型",
                 'objs': type_list,
                 'obj': obj,
                 'total': total,
@@ -141,8 +278,8 @@ class AddUser(BaseHandler):
     @authorized()
     def get(self):
         obj = User
-        obj.id = ''
-        obj.name = ''
+        obj.user_id = ''
+        obj.user_name = ''
         obj.email = ''
         obj.status = 1
         self.echo('admin_user_edit.html', {
@@ -308,7 +445,7 @@ class RePassword(BaseHandler):
 class EditProfile(BaseHandler):
     @authorized()
     def get(self):
-        self.echo('ucenter_profile.html', {
+        self.echo('admin_profile.html', {
             'title': "个人资料",
         }, layout='_layout_admin.html')
 
@@ -510,10 +647,10 @@ class Forbidden(BaseHandler):
 #####
 urls = [
     (r"/admin/", HomePage),
-    (r"/admin/daily", Daily),
-    (r"/admin/report", Report),
-    # 数据类型管理
-    (r"/admin/type_list", TypeController),
+    (r"/admin/daily", DailyController),
+    (r"/admin/report", ReportController),
+    (r"/admin/folk_list", FolkController),  # 亲人
+    (r"/admin/type_list", TypeController),  # 数据类型管理
     # 用户管理
     (r"/admin/add_user", AddUser),
     (r"/admin/edit_user/(\d*)", EditUser),

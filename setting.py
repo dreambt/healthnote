@@ -11,11 +11,11 @@ else:
 
 ## 下面需要修改(部署之前修改有效), 部署后可以在后台修改
 
-SITE_TITLE = u"CloudPrint"
-SITE_TITLE2 = u"绿色便捷的打印新时代"
-SITE_SUB_TITLE = u"CloudPrint"  #副标题
-KEYWORDS = u"CloudPrint,云,打印,山东财经大学,创业,绿色,环保,省时"
-SITE_DECR = u"CloudPrint 是一个 ********"
+SITE_TITLE = u"健康卫士"
+SITE_TITLE2 = u"时刻关注他(她)的健康"
+SITE_SUB_TITLE = u"健康卫士"  #副标题
+KEYWORDS = u"健康卫士,健康,卫士"
+SITE_DECR = u"健康卫士 是一个 ********"
 ADMIN_NAME = u"baitao.ji"
 NOTICE_MAIL = u"dreambt@126.com"
 
@@ -29,6 +29,7 @@ MAIL_TO = 'dev@cms4p.sendcloud.org'
 
 ADMIN_USER_NUM = 15
 ADMIN_TYPE_NUM = 15
+ADMIN_FOLK_NUM = 15
 
 # 放在网页底部的统计代码
 ANALYTICS_CODE = """"""
