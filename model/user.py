@@ -54,6 +54,19 @@ class User():
         else:
             return None
 
+    def update_user_password(self, email='', pw=None):
+        if email and pw:
+            timestamp = int(time.time())
+            salt = random_string(8)
+            pw += salt
+            sql = "update `mh_user` set `password` = \'%s\', `salt` = \'%s\'" % (
+                md5(pw.encode('utf-8')).hexdigest(), salt)
+            sql += ", `edit_time` = %s where `email` = \'%s\' LIMIT 1" % (timestamp, email)
+            mdb._ensure_connected()
+            return mdb.execute(sql)
+        else:
+            return None
+
     def update_user_audit(self, user_id, status=''):
         sql = "update `mh_user` set `status` = %s where `user_id` = %s LIMIT 1"
         mdb._ensure_connected()

@@ -64,7 +64,7 @@ class Data():
     def get_all_data(self, folk_id, today=''):
         sdb._ensure_connected()
         sql = "select * from `mh_data` left join mh_type on mh_data.key = mh_type.type_id " \
-              "where `add_date` = \'%s\' and `folk_id` = \'%s\'" % (today, folk_id)
+              "and `add_date` = \'%s\' and `folk_id` = \'%s\'" % (today, folk_id)
         return sdb.query(sql)
 
     # 分页

@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `mh_type` (
   `type_id` int unsigned NOT NULL AUTO_INCREMENT,
   `type_name` varchar(40) NOT NULL DEFAULT '',
   `type_type` varchar(20) NOT NULL DEFAULT '',
+  `type_unit` varchar(20) NOT NULL DEFAULT '',
   `type_order` tinyint(3) NOT NULL DEFAULT 0,
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
@@ -102,7 +103,7 @@ DROP TABLE IF EXISTS `mh_folk`;
 CREATE TABLE IF NOT EXISTS `mh_folk` (
   `folk_id` int unsigned NOT NULL AUTO_INCREMENT,
   `folk_name` varchar(20) NOT NULL DEFAULT '',
-  `birthday` varchar(20) unsigned NOT NULL DEFAULT '',
+  `birthday` varchar(20) NOT NULL DEFAULT '',
   `add_time` int(10) unsigned NOT NULL DEFAULT '0',
   `edit_time` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`folk_id`)

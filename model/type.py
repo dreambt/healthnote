@@ -10,12 +10,12 @@ class Type():
         sdb._ensure_connected()
         return sdb.query('SELECT COUNT(*) AS num FROM `mh_type`')[0]['num']
 
-    def create_type(self, type_name='', type_type='', type_order=0):
+    def create_type(self, type_name='', type_type='', type_unit='', type_order=0):
         if type_name and type_type:
-            sql = "insert into `mh_type` (`type_name`,`type_type`,`type_order`)"
-            sql += " values(%s,%s,%s)"
+            sql = "insert into `mh_type` (`type_name`,`type_type`,`type_unit`,`type_order`)"
+            sql += " values(%s,%s,%s,%s)"
             mdb._ensure_connected()
-            return mdb.execute(sql, type_name, type_type, type_order)
+            return mdb.execute(sql, type_name, type_type, type_unit, type_order)
         else:
             return None
 
@@ -24,14 +24,11 @@ class Type():
         query = "DELETE FROM `mh_type` WHERE `type_id`=%s"
         mdb.execute(query, type_id)
 
-    def update_type(self, type_id, type_name='', type_type='', type_order=0):
-        if type_type or type_type:
-            sql = "update `mh_type` set `type_name`= \'%s\', `type_type` = %s, `type_order` = %s " \
-                  "where `type_id` = \'%s\' LIMIT 1" % (type_name, type_type, type_order, type_id)
-            mdb._ensure_connected()
-            return mdb.execute(sql)
-        else:
-            return None
+    def update_type(self, type_id, type_name='', type_type='', type_unit='', type_order=0):
+        sql = "update `mh_type` set `type_name`= \'%s\', `type_type` = \'%s\', `type_unit` = \'%s\', `type_order` = %s " \
+              "where `type_id` = \'%s\' LIMIT 1" % (type_name, type_type, type_unit, type_order, type_id)
+        mdb._ensure_connected()
+        return mdb.execute(sql)
 
     def get_type(self, type_id):
         sdb._ensure_connected()

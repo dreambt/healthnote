@@ -53,6 +53,10 @@ class DailyController(BaseHandler):
         type_list = Data.get_all_data(folk_id, today)
         if not type_list:
             type_list = Type.get_all()
+        else:
+            # TODO 补充没有赋值的属性
+            pass
+
         folk = Folk.get_folk(0, folk_id)
         self.echo('admin_daily.html', {
                 'title': "数据录入",
@@ -248,22 +252,22 @@ class TypeController(BaseHandler):
     @authorized()
     def post(self):
         act = self.get_argument("act", '')
-        id = self.get_argument("id", '')
+        type_id = self.get_argument("id", '')
 
         type_name = self.get_argument("type_name", '')
         type_type = self.get_argument("type_type", '')
+        type_unit = self.get_argument("type_unit", '')
         type_order = self.get_argument("type_order", 0)
 
-        if id or type_name or type_type or type_order:
+        if type_id or type_name or type_type or type_unit or type_order:
             if act == 'add':
-                Type.create_type(type_name, type_type, type_order)
+                Type.create_type()
 
             if act == 'edit':
-                params = {'type_id': id, 'type_name': type_name, 'type_type': type_type, 'type_order': type_order}
-                Type.update_type(params)
+                Type.update_type(type_id, type_name, type_type, type_unit, type_order)
 
             if act == 'del':
-                Type.delete_type(id)
+                Type.delete_type(type_id)
 
             clear_cache_by_pathlist(['/'])
 
@@ -457,11 +461,11 @@ class EditProfile(BaseHandler):
         newPassword2 = self.get_argument("newPassword2", '')
         if oldPassword and newPassword and newPassword2:
             if newPassword == newPassword2:
-                username = self.get_secure_cookie('username')
-                old_user = User.get_user_by_name(username)
+                email = self.get_secure_cookie('email')
+                old_user = User.get_user_by_email(email)
                 oldPassword = md5(oldPassword.encode('utf-8') + old_user.salt.encode('utf-8')).hexdigest()
                 if oldPassword == old_user.password:
-                    User.update_user(username, None, newPassword)
+                    User.update_user_password(email, newPassword)
                     user = User.get_user(old_user.id)
                     self.set_secure_cookie('userpw', user.password, expires_days=1)
                     self.write(escape.json.dumps("OK"))
