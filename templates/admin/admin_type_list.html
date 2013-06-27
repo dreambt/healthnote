@@ -4,13 +4,14 @@
         <?py if obj: ?>
         <span class="label label-info"><strong>编辑</strong></span>
         <input type="text" name="type_name" value="#{obj.type_name}" class="span3" required maxlength="100" placeholder="名称"/>
-        <select name="type_type" value="#{obj.type_type}" class="span2">
+        <select name="type_type" class="span2">
           <option value="number">数字</option>
           <option value="string">字符串</option>
           <option value="textarea">文本</option>
           <option value="boolean">布尔</option>
           <option value="other">其他</option>
         </select>
+        <script type="text/javascript">$("select[name='type_type']").val("#{obj.type_type}");</script>
         <input type="text" name="type_unit" value="#{obj.type_unit}" min="0" max="255" class="span1" placeholder="单位"/>
         <input type="number" name="type_order" value="#{obj.type_order}" min="0" max="255" class="span1" placeholder="排序"/>
         <input type='hidden' value='edit' name='act'/>
