@@ -15,7 +15,7 @@
                         <?py elif i.type_type == 'textarea': ?>
                         <textarea name="#{i.type_id}" class="input-xlarge" rows="6" id="field#{i.type_id}">#{i.value}</textarea>
                         <?py elif i.type_type == 'boolean': ?>
-                        <?py ck = ['checked',''] ?>
+                        <?py ck = ['','checked'] ?>
                         <?py i.value = 1 == i.value ?>
                         <div class="switch switch-small"><input type="checkbox" name="#{i.type_id}" class="input-xlarge" id="field#{i.type_id}" value="1" #{ck[i.value]}/></div>
                         <?py else: ?>
