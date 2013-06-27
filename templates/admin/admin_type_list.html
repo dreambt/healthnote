@@ -12,13 +12,13 @@
           <option value="other">其他</option>
         </select>
         <script type="text/javascript">$("select[name='type_type']").val("#{obj.type_type}");</script>
-        <input type="text" name="type_unit" value="#{obj.type_unit}" min="0" max="255" class="span1" placeholder="单位"/>
+        <input type="text" name="type_unit" value="#{obj.type_unit}" class="span2" placeholder="单位"/>
         <input type="number" name="type_order" value="#{obj.type_order}" min="0" max="255" class="span1" placeholder="排序"/>
         <input type='hidden' value='edit' name='act'/>
         <input type='hidden' value='#{obj.type_id}' name='id'/>
         <?py else: ?>
         <span class="label label-info">新建</span>
-        <input type="text" name="type_name" value="" class="span3" required maxlength="100" placeholder="名称"/>
+        <input type="text" name="type_name" class="span3" required maxlength="100" placeholder="名称"/>
         <select name="type_type" class="span2">
           <option value="number">数字</option>
           <option value="string">字符串</option>
@@ -26,8 +26,8 @@
           <option value="boolean">布尔</option>
           <option value="other">其他</option>
         </select>
-        <input type="text" name="type_unit" value="" class="span1" min="0" max="255" placeholder="单位"/>
-        <input type="number" name="type_order" value="" class="span1" min="0" max="255" placeholder="排序"/>
+        <input type="text" name="type_unit" class="span2" placeholder="单位"/>
+        <input type="number" name="type_order" class="span1" min="0" max="255" placeholder="排序"/>
         <input type='hidden' value='add' name='act'/>
         <?py #endif ?>
         <button type="submit" class="btn btn-primary">保 存</button>
@@ -47,7 +47,7 @@
         </thead>
         <tbody id="content">
         <?py for i in objs: ?>
-        <tr id="link-#{i.type_id}">
+        <tr id="type-#{i.type_id}">
             <td>#{i.type_id}</td>
             <td>#{i.type_name}</td>
             <td>#{i.type_type}</td>
@@ -68,9 +68,9 @@
         $("input,select,textarea").jqBootstrapValidation();
         $('#myForm').submit(function () {
             var type_name = $("input[name='type_name']").val();
-            var type_type = $("input[name='type_type']").val();
-            var type_unit = $("input[name='type_unit']").val().trim();
-            var type_order = $("input[name='type_order']").val().trim();
+            var type_type = $("select[name='type_type']").val();
+            var type_unit = $("input[name='type_unit']").val();
+            var type_order = $.trim($("input[name='type_order']").val());
             if (type_order=="") $("input[name='type_order']").val("0");
             $.ajax({
                 type: 'POST',
@@ -85,7 +85,7 @@
                     }
                     else {
                         var id = $("input[name='id']").val();
-                        $("#link-"+id).html("<td>"+id+"</td><td>"+type_name+"</td><td>"+type_type+"</td><td>"+type_unit+"</td><td>"+type_order+"</td><td><a href='/admin/type_list?id="+id+"&act=edit'>编辑</a> <a href='/admin/links?id="+id+"&act=del' class='ajax' data-remove-closest='tr'>删除</a></td>");
+                        $("#type-"+id).html("<td>"+id+"</td><td>"+type_name+"</td><td>"+type_type+"</td><td>"+type_unit+"</td><td>"+type_order+"</td><td><a href='/admin/type_list?id="+id+"&act=edit'>编辑</a> <a href='/admin/links?id="+id+"&act=del' class='ajax' data-remove-closest='tr'>删除</a></td>");
                     }
                 },
                 error: function() {
@@ -116,7 +116,7 @@
 </script>
 <script id="linkTemplate" type="text/html">
 <%for(i = 0; i < list.length; i ++) {%>
-<tr id="link-<%=list[i].id%>">
+<tr id="type-<%=list[i].id%>">
     <td><%=list[i].type_id%></td>
     <td><%=list[i].type_name%></td>
     <td><%=list[i].type_type%></td>

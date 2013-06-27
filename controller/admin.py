@@ -182,6 +182,7 @@ class FolkController(BaseHandler):
 
     @authorized()
     def post(self):
+        self.set_header("Content-Type", "application/json")
         act = self.get_argument("act", '')
         folk_id = self.get_argument("id", '')
 
@@ -202,11 +203,8 @@ class FolkController(BaseHandler):
                 Folk.delete_folk(user_id, folk_id)
 
             clear_cache_by_pathlist(['/'])
-
-            self.set_header("Content-Type", "application/json")
             self.write(json.dumps("OK"))
         else:
-            self.set_header("Content-Type", "application/json")
             self.write(json.dumps("参数异常"))
 
 
@@ -251,6 +249,7 @@ class TypeController(BaseHandler):
 
     @authorized()
     def post(self):
+        self.set_header("Content-Type", "application/json")
         act = self.get_argument("act", '')
         type_id = self.get_argument("id", '')
 
@@ -261,20 +260,15 @@ class TypeController(BaseHandler):
 
         if type_id or type_name or type_type or type_unit or type_order:
             if act == 'add':
-                Type.create_type()
-
-            if act == 'edit':
+                Type.create_type(type_name, type_type, type_unit, type_order)
+            elif act == 'edit':
                 Type.update_type(type_id, type_name, type_type, type_unit, type_order)
-
-            if act == 'del':
+            elif act == 'del':
                 Type.delete_type(type_id)
 
             clear_cache_by_pathlist(['/'])
-
-            self.set_header("Content-Type", "application/json")
             self.write(json.dumps("OK"))
         else:
-            self.set_header("Content-Type", "application/json")
             self.write(json.dumps("参数异常"))
 
 
@@ -466,8 +460,7 @@ class EditProfile(BaseHandler):
                 oldPassword = md5(oldPassword.encode('utf-8') + old_user.salt.encode('utf-8')).hexdigest()
                 if oldPassword == old_user.password:
                     User.update_user_password(email, newPassword)
-                    user = User.get_user(old_user.id)
-                    self.set_secure_cookie('userpw', user.password, expires_days=1)
+                    self.clear_all_cookies()
                     self.write(escape.json.dumps("OK"))
                     return
                 else:

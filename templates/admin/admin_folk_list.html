@@ -53,7 +53,7 @@
         $('#myForm').submit(function () {
             var folk_name = $("input[name='folk_name']").val();
             var relation = $("input[name='relation']").val();
-            var birthday = $("input[name='birthday']").val().trim();
+            var birthday = $.trim($("input[name='birthday']").val());
             if (birthday=="") $("input[name='birthday']").val("0");
             $.ajax({
                 type: 'POST',
@@ -68,7 +68,7 @@
                     }
                     else {
                         var id = $("input[name='id']").val();
-                        $("#link-"+id).html("<td>"+id+"</td><td>"+folk_name+"</td><td>"+relation+"</td><td>"+birthday+"</td><td><a href='/admin/folk_list?id="+id+"&act=edit'>编辑</a> <a href='/admin/links?id="+id+"&act=del' class='ajax' data-remove-closest='tr'>删除</a></td>");
+                        $("#folk-"+id).html("<td>"+id+"</td><td>"+folk_name+"</td><td>"+relation+"</td><td>"+birthday+"</td><td><a href='/admin/folk_list?id="+id+"&act=edit'>编辑</a> <a href='/admin/links?id="+id+"&act=del' class='ajax' data-remove-closest='tr'>删除</a></td>");
                     }
                 },
                 error: function() {

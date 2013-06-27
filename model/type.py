@@ -13,9 +13,9 @@ class Type():
     def create_type(self, type_name='', type_type='', type_unit='', type_order=0):
         if type_name and type_type:
             sql = "insert into `mh_type` (`type_name`,`type_type`,`type_unit`,`type_order`)"
-            sql += " values(%s,%s,%s,%s)"
+            sql += " values(\'%s\',\'%s\',\'%s\',\'%s\')" % (type_name, type_type, type_unit, type_order)
             mdb._ensure_connected()
-            return mdb.execute(sql, type_name, type_type, type_unit, type_order)
+            return mdb.execute(sql)
         else:
             return None
 
